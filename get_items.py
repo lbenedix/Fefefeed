@@ -45,7 +45,3 @@ for i in range(3):
         c += 1
     print(datetime.now(), d, c)
 
-
-
-# s = BeautifulSoup(requests.get('http://blog.fefe.de/?ts=a8a1981f').text, 'html5lib')
-# print(s.prettify())
