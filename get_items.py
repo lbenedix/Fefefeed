@@ -18,9 +18,9 @@ dates = sorted(dates())
 
 index = dates.index('{}{:02d}'.format(now.year,now.month))
 
-# for i in range(3):
-#     d = dates[index-i]
-for d in dates:
+for i in range(2):
+    d = dates[index-i]
+#for d in dates:
     y = int(d[:4])
     m = int(d[4:])
 
@@ -39,10 +39,8 @@ for d in dates:
             old_text = table.find_one(item_id=id)['text']
             if old_text != text:
                 print(datetime.now(), 'updated', id)
-        # else:
-        #     print(datetime.now(), 'new    ', id)
+        else:
+            print(datetime.now(), 'new    ', id)
 
         table.upsert(dict(item_id=id,timestamp=ts,text=text),['item_id'])
         c += 1
-    print(datetime.now(), d, c)
-
