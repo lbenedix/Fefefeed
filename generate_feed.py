@@ -1,28 +1,32 @@
 import dataset
 import time
+from datetime import datetime
 from email import utils
 from bs4 import BeautifulSoup
 
-feed = '<rss version="2.0">\n<channel>\n<title>Fefes Blog</title>\n<link>http://blog.fefe.de/</link>\n<description>Verschwörungen und Obskures aus aller Welt</description>\n<language>de</language>\n\n'
+feed = '<rss version="2.0"><channel><title>Fefes Blog</title><link>http://blog.fefe.de/</link><description>Verschwörungen und Obskures aus aller Welt</description><language>de</language>'
+
+feed += '<lastBuildDate>{}</lastBuildDate>'.format(utils.formatdate(time.mktime(datetime.now().timetuple())))
+
 
 db = dataset.connect('sqlite:///fefe.db')
 all_items = [x for x in db['items'].find(order_by='-timestamp')]
 
 
 for item in all_items[:50]:
-    feed += '<item>\n'
-    feed += '<link>http://blog.fefe.de/?ts={}</link>\n'.format(item['item_id'])
-    feed += '<guid>http://blog.fefe.de/?ts={}</guid>\n'.format(item['item_id'])
-    feed += '<pubDate>{}</pubDate>\n'.format(utils.formatdate(time.mktime(item['timestamp'].timetuple())))
+    feed += '<item>'
+    feed += '<link>http://blog.fefe.de/?ts={}</link>'.format(item['item_id'])
+    feed += '<guid>http://blog.fefe.de/?ts={}</guid>'.format(item['item_id'])
+    feed += '<pubDate>{}</pubDate>'.format(utils.formatdate(time.mktime(item['timestamp'].timetuple())))
 
     words = BeautifulSoup(item['text'], 'html5lib').text.split(' ')
     feed += '<title>{}'.format(' '.join(words[:10]))
     if len(words) > 10: feed += '...</title>\n'
     else:               feed += '</title>\n'
-    feed += '<description>\n<![CDATA[\n{}\n]]>\n</description>\n'.format(item['text'])
-    feed += '</item>\n'
+    feed += '<description><![CDATA[{}]]></description>'.format(item['text'])
+    feed += '</item>'
 
-feed += '</channel>\n</rss>'
+feed += '</channel></rss>'
 
 
 text_file = open("feed.xml", "w")
