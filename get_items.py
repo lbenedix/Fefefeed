@@ -1,9 +1,11 @@
 import requests, dataset
 from bs4 import BeautifulSoup
 from datetime import datetime
+import hashlib
 
 def dates():
-    for y in range(2005,2017):
+    now = datetime.now()
+    for y in range(2005,now.year + 1):
         for m in range(1,13):
             yield '{}{:02d}'.format(y,m)
 
@@ -21,6 +23,7 @@ index = dates.index('{}{:02d}'.format(now.year,now.month))
 for i in range(2):
     d = dates[index-i]
 #for d in dates:
+#    print(datetime.now(), d)
     y = int(d[:4])
     m = int(d[4:])
 
@@ -35,12 +38,22 @@ for i in range(2):
 
         text = ''.join(map(str, li.contents[1:]))
 
+        updated = False
+        update_ts = None
         if table.count(item_id=id) > 0:
-            old_text = table.find_one(item_id=id)['text']
+            old_item = table.find_one(item_id=id)
+            old_text = old_item['text']
+            update_ts = old_item['update_ts']
             if old_text != text:
                 print(datetime.now(), 'updated', id)
-        else:
-            print(datetime.now(), 'new    ', id)
+                ts = datetime.now()
+                updated = True
+                db['updates'].insert(dict(item_id=id, timestamp=ts))
+        #else:
+        #    print(datetime.now(), 'new    ', id)
 
-        table.upsert(dict(item_id=id,timestamp=ts,text=text),['item_id'])
+        if updated:
+            update_ts = datetime.now()
+
+        table.upsert(dict(item_id=id,timestamp=ts,text=text, update_ts=update_ts),['item_id'])
         c += 1
