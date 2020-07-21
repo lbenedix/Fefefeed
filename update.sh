@@ -15,4 +15,5 @@ else
 	git commit -m "new stuff"
 	git push
 fi
+echo $(date) > last_run
 
