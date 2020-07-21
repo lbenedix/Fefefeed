@@ -27,6 +27,7 @@ for i in range(2):
     y = int(d[:4])
     m = int(d[4:])
 
+    print(datetime.now(), url.format(d))
     soup = BeautifulSoup(requests.get(url.format(d)).text, 'html5lib')
 
     c = 0

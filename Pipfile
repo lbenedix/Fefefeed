@@ -13,3 +13,7 @@ html5lib = "*"
 
 [requires]
 python_version = "3.8"
+
+[scripts]
+get_items = "python get_items.py"
+generate_feed = "python generate_feed.py"
