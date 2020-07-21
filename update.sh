@@ -5,13 +5,12 @@ cd /home/lbenedix/Fefefeed
 pipenv run get_items
 pipenv run generate_feed
 
-if $(git diff --stat | grep "1 insertion(+), 1 deletion(-)"); then
-	echo "only one change"
-#	git checkout feed.xml
+git diff --stat | grep "feed.xml  |  2 +-"
+if [ $? -eq 0 ]; then
+	echo OK, nothing new
 else
-	echo "real update"
-#	git add .
-#	git commit -m "new stuff"
-#	git push
+	git add .
+	git commit -m "new stuff"
+	git push
 fi
 
