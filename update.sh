@@ -2,8 +2,8 @@
 
 cd /home/lbenedix/Fefefeed
 
-pipenv run get_items
-pipenv run generate_feed
+/home/lbenedix/.pyenv/shims/pipenv run get_items
+/home/lbenedix/.pyenv/shims/pipenv run generate_feed
 
 git diff --stat | grep feed.xml | grep "2 +-"
 if [ $? -eq 0 ]; then
