@@ -1,4 +1,7 @@
-<rss version="2.0"><channel><title>Fefes Blog</title><link>http://blog.fefe.de/</link><description>Verschwörungen und Obskures aus aller Welt</description><language>de</language><lastBuildDate>Fri, 13 May 2022 13:05:04 -0000</lastBuildDate><item><link>http://blog.fefe.de/?ts=9c8085e2</link><guid>http://blog.fefe.de/?ts=9c8085e2#2022-05-13 15:05:02.847862</guid><pubDate>Fri, 13 May 2022 13:05:02 -0000</pubDate><title>$ host www.zensus2022.de
+<rss version="2.0"><channel><title>Fefes Blog</title><link>http://blog.fefe.de/</link><description>Verschwörungen und Obskures aus aller Welt</description><language>de</language><lastBuildDate>Fri, 13 May 2022 13:10:03 -0000</lastBuildDate><item><link>http://blog.fefe.de/?ts=9c808bb2</link><guid>http://blog.fefe.de/?ts=9c808bb2</guid><pubDate>Fri, 13 May 2022 12:13:32 -0000</pubDate><title>DPD hat operationelle Herausforderungen.
+</title>
+<description><![CDATA[ <a href="https://twitter.com/dpd_de/status/1524683967261257728">DPD hat operationelle Herausforderungen</a>.
+]]></description></item><item><link>http://blog.fefe.de/?ts=9c8085e2</link><guid>http://blog.fefe.de/?ts=9c8085e2#2022-05-13 15:05:02.847862</guid><pubDate>Fri, 13 May 2022 11:47:08 -0000</pubDate><title>$ host www.zensus2022.de
 www.zensus2022.de is a nickname for www.zensus2022.de.cdn.cloudflare.net
 www.zensus2022.de.cdn.cloudflare.net is a...</title>
 <description><![CDATA[ <pre>$ host www.zensus2022.de
@@ -7,10 +10,7 @@ www.zensus2022.de.cdn.cloudflare.net is a nickname for c7ba73fe210a4279bce9682f6
 c7ba73fe210a4279bce9682f61b09d5c.pacloudflare.com has address 141.101.90.2
 </pre>
 Nein, das heißt nicht, dass das in den USA liegt. Tut es auch zumindest von hier aus gerade nicht. Sowas könnt ihr schnell selber auf Plausibilität prüfen, indem ihr die Site pingt, und dann guckt, wie viel Latenz die Antwort hatte.<p>Ich krieg hier gerade eine Latenz von ~10 ms und komme (kann man mit traceroute/mtr/tracert sehen) beim BCIX raus, also in Berlin.</p><p>Eine Webseite, die tatsächlich in den USA gehostet wird, hat aus Europa eher so eine Latenz über 100 ms.
-</p>]]></description></item><item><link>http://blog.fefe.de/?ts=9c808bb2</link><guid>http://blog.fefe.de/?ts=9c808bb2</guid><pubDate>Fri, 13 May 2022 12:13:32 -0000</pubDate><title>DPD hat operationelle Herausforderungen.
-</title>
-<description><![CDATA[ <a href="https://twitter.com/dpd_de/status/1524683967261257728">DPD hat operationelle Herausforderungen</a>.
-]]></description></item><item><link>http://blog.fefe.de/?ts=9c80dbe8</link><guid>http://blog.fefe.de/?ts=9c80dbe8</guid><pubDate>Fri, 13 May 2022 08:47:50 -0000</pubDate><title>Aus der beliebten Reihe "unsicherer durch Security-Software", heute: Zonealarm, Zyxel-Firewalls.
+</p>]]></description></item><item><link>http://blog.fefe.de/?ts=9c80dbe8</link><guid>http://blog.fefe.de/?ts=9c80dbe8</guid><pubDate>Fri, 13 May 2022 08:47:50 -0000</pubDate><title>Aus der beliebten Reihe "unsicherer durch Security-Software", heute: Zonealarm, Zyxel-Firewalls.
 </title>
 <description><![CDATA[ Aus der beliebten Reihe "unsicherer durch Security-Software", heute: <a href="https://heise.de/-7090411">Zonealarm</a>, <a href="https://heise.de/-7090269">Zyxel-Firewalls</a>.
 ]]></description></item><item><link>http://blog.fefe.de/?ts=9c80d789</link><guid>http://blog.fefe.de/?ts=9c80d789</guid><pubDate>Fri, 13 May 2022 08:31:19 -0000</pubDate><title>Gestern so: Nordkorea hat den ersten Covid-Fall.Heute so: Nordkorea hat...</title>
