@@ -1,4 +1,41 @@
-<rss version="2.0"><channel><title>Fefes Blog</title><link>http://blog.fefe.de/</link><description>Verschwörungen und Obskures aus aller Welt</description><language>de</language><lastBuildDate>Wed, 25 May 2022 14:30:04 -0000</lastBuildDate><item><link>http://blog.fefe.de/?ts=9c70fcb5</link><guid>http://blog.fefe.de/?ts=9c70fcb5</guid><pubDate>Wed, 25 May 2022 14:25:47 -0000</pubDate><title>Gute Nachrichten! Seit 2020 sind in den USA Autounfälle nicht...</title>
+<rss version="2.0"><channel><title>Fefes Blog</title><link>http://blog.fefe.de/</link><description>Verschwörungen und Obskures aus aller Welt</description><language>de</language><lastBuildDate>Wed, 25 May 2022 14:45:03 -0000</lastBuildDate><item><link>http://blog.fefe.de/?ts=9c7080c7</link><guid>http://blog.fefe.de/?ts=9c7080c7</guid><pubDate>Wed, 25 May 2022 14:41:29 -0000</pubDate><title>Compiler und insbesondere Optimizer sind ja heutzutage schon ziemlich großartig...</title>
+<description><![CDATA[ Compiler und insbesondere Optimizer sind ja heutzutage schon ziemlich großartig und in den meisten Fällen besser als menschliche Codengeneratoren.<p>Aber manchmal stößt man auf Fälle, wo noch was geht. Ich hab hier einen gefunden:</p><pre>int dummy1()
+{
+  static int removeme = 0;
+  if (removeme)
+  {
+      return 0;
+  }
+  removeme = 1;
+  return 0;
+}</pre>Der Inhalt von removeme hat offensichtlich keine beobachtbaren Auswirkungen, kann also eigentlich komplett weg. Das machen aber weder gcc noch clang, beide mit -O3. Besonders krass: Selbst mit -flto nicht!<p>Zum Spielen habe ich das nochmal leicht umformuliert probiert:</p><pre>int dummy2()
+{
+  static int removeme = 0;
+  if (!removeme)
+    removeme = 1;
+  return 0;
+}
+
+int dummy3()
+{
+  static int removeme = 0;
+  removeme = 1;
+  return 0;
+}</pre>Bei dummy3 fällt gcc und clang auf, dass man removeme komplett wegmachen kann. Bei dummy2 aber auch nicht.<p>Ich bin gerade ein bisschen schockiert, dass selbst Link Time Optimization das nicht wegschmeißt. Hier der Testcode dafür:</p><pre>int main() {
+  return dummy1() + dummy2() + dummy3();
+}</pre>Und da kommt dann dieser Code raus (amd64):<pre>    16d0:       80 3d 95 22 00 00 00    cmpb   $0x0,0x2295(%rip)        # 396c &lt;dummy1.removeme&gt;
+    16d7:       74 0c                   je     16e5 &lt;main+0x15&gt;
+    16d9:       80 3d 90 22 00 00 00    cmpb   $0x0,0x2290(%rip)        # 3970 &lt;dummy2.removeme&gt;
+    16e0:       74 13                   je     16f5 &lt;main+0x25&gt;
+    16e2:       31 c0                   xor    %eax,%eax
+    16e4:       c3                      ret
+    16e5:       c6 05 80 22 00 00 01    movb   $0x1,0x2280(%rip)        # 396c &lt;dummy1.removeme&gt;
+    16ec:       80 3d 7d 22 00 00 00    cmpb   $0x0,0x227d(%rip)        # 3970 &lt;dummy2.removeme&gt;
+    16f3:       75 ed                   jne    16e2 &lt;main+0x12&gt;
+    16f5:       c6 05 74 22 00 00 01    movb   $0x1,0x2274(%rip)        # 3970 &lt;dummy2.removeme&gt;
+    16fc:       31 c0                   xor    %eax,%eax
+    16fe:       c3                      ret</pre>Vielleicht übersehe ich da gerade irgendeine Formulierung in irgendeinem Standard. Mal gucken, was die sagen. Habe Bugs eingetragen bei gcc und clang.
+]]></description></item><item><link>http://blog.fefe.de/?ts=9c70fcb5</link><guid>http://blog.fefe.de/?ts=9c70fcb5</guid><pubDate>Wed, 25 May 2022 14:25:47 -0000</pubDate><title>Gute Nachrichten! Seit 2020 sind in den USA Autounfälle nicht...</title>
 <description><![CDATA[ Gute Nachrichten! <a href="https://www.nejm.org/doi/full/10.1056/NEJMc2201761">Seit 2020 sind</a> in den USA Autounfälle nicht mehr die häufigste Todesursache für Kinder und Jugendliche!
 ]]></description></item><item><link>http://blog.fefe.de/?ts=9c70db8c</link><guid>http://blog.fefe.de/?ts=9c70db8c</guid><pubDate>Wed, 25 May 2022 12:04:34 -0000</pubDate><title>Genug ist genug. Wir müssen was gegen Schusswaffengewalt tun.Wenn er...</title>
 <description><![CDATA[ <a href="https://twitter.com/POTUS/status/1529273544881971203">Genug ist genug</a>. Wir müssen was gegen Schusswaffengewalt tun.<p>Wenn er doch nur jemanden kennen würde, der Macht und Einfluss hat!
@@ -98,6 +135,4 @@ Maschine namens <a href="http://scz.bplaced.net/t219.html">T-219 Jachta</a>. Das
 <description><![CDATA[ Ihr müsst jetzt alle sehr tapfer sein: <a href="https://heise.de/-7097673">In China wird trotz Crypto-Mining-Verbot heimlich weitergemacht</a>.<p>I'm shocked, <a href="https://www.youtube.com/watch?v=SjbPi00k_ME">shocked!</a>, to find that mining is going on in here!
 </p>]]></description></item><item><link>http://blog.fefe.de/?ts=9c7a6032</link><guid>http://blog.fefe.de/?ts=9c7a6032#2022-05-18 12:00:01.735250</guid><pubDate>Wed, 18 May 2022 07:31:56 -0000</pubDate><title>Früher hat man sich erzählt, dass bei Banken irgendwo ein...</title>
 <description><![CDATA[ Früher hat man sich erzählt, dass bei Banken irgendwo ein Prozess existiert, wo links etwas ausgedruckt aus einem Drucker fällt, und dann sitzt da irgendein armes Schwein und tippt das rechts in ein anderes System wieder ein.<p>Stellt sich raus: <a href="https://augengeradeaus.net/2022/05/deutsche-truppenpraesenz-in-litauen-der-stolperdraht-scheint-nicht-mehr-genug/">Gibt es auch bei der Bundeswehr, hat den wunderschönen Namen "Drehstuhlschnittstelle"</a>.</p><blockquote>Die Anbindung aber muss mit der veralteten deutschen Funktechnik hergestellt werden, vielleicht noch mit zusätzlichen Relais.</blockquote>Ja richtig gelesen. Relais!<blockquote>Und während die Kompanien langwierig über unverschlüsselten Sprechfunk ihre Standorte nach oben melden und von der Führung der Battlegroup ihre Befehle erhalten, drücken Niederländer, Norweger oder Tschechen in ihren Kompaniegefechtsständen auf einen Knopf und übermitteln gesichert per Datenfunk die notwendigen Informationen an ihre Truppe.</blockquote>Unverschlüsselte Funkübertragung! Da freut sich der mithörende Feind!<blockquote>Im Gefechtsstand der (deutschen) gemischten Aufklärungskompanie sitzt derweil ein Soldat vor einer Batterie von Funkgeräten für verschiedene Funkkreise.  Was über Datenfunk eingeht, wird von einem Soldaten vorgelesen und von einem weiteren in einen anderen Laptop eingegeben, zur Weitermeldung an die Operationszentrale. Drehstuhlschnittstelle heißt das bei der Bundeswehr.</blockquote>Ich würde ja witzeln, dass das wie damals im Osten klingt, aber damals im Osten war das vermutlich a) verschlüsselt und b) effizienter.<p u=""><b>Update</b>: Es gibt sowohl in der Funk- wie in der Elektrotechnik ein Relais. In der E-Technik ist das ein antiquiertes Bauteil, in der Funktechnik ist es, was man sonst in Netzwerken einen Router oder Repeater nennen würde. Hier ist vermutlich ein Funk-Relais gemeint, was es aber nicht weniger OMGWTF macht in meinen Augen.</p><p u=""><b>Update</b>: Leserbrief:</p><blockquote><p u="">ich arbeite bei einer Versicherung und da passiert sowas auch häufiger. Bei uns heißt das Bioschnittstelle, oder Oktobiologische Schnittstelle, wenn mehr als zwei Systeme manuell bedient/befüllt werden müssen</p></blockquote><p u=""><b>Update</b>: Ein anderer Leser weist darauf hin, dass <a href="https://inews.co.uk/news/world/russian-troops-era-phone-system-ukraine-destroyed-4g-masts-1504149">auch die Russen in der Ukraine Stress mit ihrer Krypto-Kommunikation haben</a>.</p><p u=""><b>Update</b>: Haha, jetzt habe ich ein Dutzend E-Techniker in der Inbox, die mir schreiben, dass Relais ja gar nicht antiquiert sind, und es da mehrere Anwendungen für gibt. Das war nicht abwertend gemeint.</p><p u=""><b>Update</b>: Leute, zum mitmeißeln: Unverschlüsselten Funkverkehr über ein automatisches Relais weiterzuleiten verdoppelt die Frequenzen, auf denen der Feind das mitlesen kann. Hört mir mal bitte auf mit eurem "aber aber das ist üblich bei Funkern"-Scheiß. Ihr mit eurem Hobbyistenscheiß seid nicht in einer Kriegssituation, wo ein Feind euer Relais automatisiert für Zielfindung in der Smart-Ammo konfigurieren kann. (Danke, Volker)
-</p>]]></description></item><item><link>http://blog.fefe.de/?ts=9c7a5f90</link><guid>http://blog.fefe.de/?ts=9c7a5f90</guid><pubDate>Wed, 18 May 2022 07:25:02 -0000</pubDate><title>Old and busted: Ransomware-Gang will Lösegeld, sonst kommst du an...</title>
-<description><![CDATA[ Old and busted: Ransomware-Gang will Lösegeld, sonst kommst du an die Daten nicht ran.<p>Auch old and busted: Ransomware-Gang will Lösegeld, sonst veröffentlichen sie die Daten.</p><p>New hotness: <a href="https://apnews.com/article/technology-government-and-politics-caribbean-gangs-381efc2320abb5356dee7f356e55e608">Ransomware-Gang will Lösegeld, sonst stürzen sie die Regierung</a>.</p><blockquote lang="en">A ransomware gang that infiltrated some Costa Rican government computer systems has upped its threat, saying its goal is now to overthrow the government.</blockquote>
-]]></description></item></channel></rss>
+</p>]]></description></item></channel></rss>
