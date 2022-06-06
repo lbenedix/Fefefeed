@@ -1,4 +1,7 @@
-<rss version="2.0"><channel><title>Fefes Blog</title><link>http://blog.fefe.de/</link><description>Verschwörungen und Obskures aus aller Welt</description><language>de</language><lastBuildDate>Sun, 05 Jun 2022 21:20:04 -0000</lastBuildDate><item><link>http://blog.fefe.de/?ts=9c63ddc0</link><guid>http://blog.fefe.de/?ts=9c63ddc0</guid><pubDate>Sun, 05 Jun 2022 21:16:14 -0000</pubDate><title>Falls ihr noch Kraft habt, euch durchzulesen, welche Konstellation von...</title>
+<rss version="2.0"><channel><title>Fefes Blog</title><link>http://blog.fefe.de/</link><description>Verschwörungen und Obskures aus aller Welt</description><language>de</language><lastBuildDate>Mon, 06 Jun 2022 10:55:03 -0000</lastBuildDate><item><link>http://blog.fefe.de/?ts=9c631cf5</link><guid>http://blog.fefe.de/?ts=9c631cf5</guid><pubDate>Mon, 06 Jun 2022 10:51:23 -0000</pubDate><title>Wisst ihr, was wir jetzt brauchen? Taser-Drohnen für amerikanische Grundschulen!
+</title>
+<description><![CDATA[ Wisst ihr, was wir jetzt brauchen? <a href="https://www.vice.com/en/article/z34bb3/axon-wants-to-make-taser-drones-for-schools-despite-its-own-ethics-boards-concerns">Taser-Drohnen für amerikanische Grundschulen</a>!
+]]></description></item><item><link>http://blog.fefe.de/?ts=9c63ddc0</link><guid>http://blog.fefe.de/?ts=9c63ddc0</guid><pubDate>Sun, 05 Jun 2022 21:16:14 -0000</pubDate><title>Falls ihr noch Kraft habt, euch durchzulesen, welche Konstellation von...</title>
 <description><![CDATA[ Falls ihr noch Kraft habt, euch durchzulesen, welche Konstellation von Fuckups zu der Terminal-Apokalypse geführt hat: <a href="https://finanz-szene.de/payments/branchen-insider-erklaeren-die-hintergruende-des-terminal-gaus/">Bittesehr</a>.<p>Ich fasse mal zusammen: Das Gerät ist veraltet und abgekündigt. Die Kreditwirtschaft hat eine Gnadenverlängerung eingeräumt. Nicht aus Freundlichkeit sondern weil der Hersteller von dem Gerät an eine Heuschrecke, äh, einen Finanzinvestor verkauft worden war, der erstmal großflächig Personal abgebaut hat.</p><p>Für eine Aktuell-Machung der alten Geräte hatten die dann wohl schlicht das Personal nicht mehr. Oh und dann gab es noch einen massiven Bestellschub für Bezahlterminals wegen Covid, als plötzlich alle berührungslos zahlen wollten.</p><p>Oh und dann kam noch die Supply-Chain-Apokalypse und der Chipmangel. Es gab und gibt schlicht keinen Ersatz, schon gar nicht kurzfristig.</p><p>So, wartet mal. Was ist denn der Unterschied zwischen dem alten und dem neuen Standard? Stellt sich raus: "Single Tap". Wenn du die Karte hin hältst, und der will eine PIN haben, musst du bei dem alten Standard die Karte nochmal vor halten. Bei dem neuen reicht insgesamt einmal.</p><p>Ja. That's it. Eine "Komfortfunktion".
 </p>]]></description></item><item><link>http://blog.fefe.de/?ts=9c62115c</link><guid>http://blog.fefe.de/?ts=9c62115c</guid><pubDate>Sun, 05 Jun 2022 15:53:38 -0000</pubDate><title>Novartis hat operative Herausforderungen. Money Quote 1:Pharmaceutical giant Novartis says...</title>
 <description><![CDATA[ <a href="https://www.bleepingcomputer.com/news/security/novartis-says-no-sensitive-data-was-compromised-in-cyberattack/">Novartis hat operative Herausforderungen</a>. Money Quote 1:<blockquote lang="en">Pharmaceutical giant Novartis says no sensitive data was compromised in a recent cyberattack by the Industrial Spy data-extortion gang.</blockquote>OK. Worum geht es denn hier?<blockquote lang="en">The threat actors claim that the data is related to RNA and DNA-based drug technology and tests from Novartis and were stolen "directly from the laboratory environment of the manufacturing plant."</blockquote>Oh, Novartis meint wohl: Nicht personenbezogen.
@@ -97,41 +100,4 @@
 </p>]]></description></item><item><link>http://blog.fefe.de/?ts=9c70832e</link><guid>http://blog.fefe.de/?ts=9c70832e</guid><pubDate>Wed, 25 May 2022 14:57:52 -0000</pubDate><title>Benutzt hier jemand Zoom für Videokonferenzen?
 </title>
 <description><![CDATA[ <a href="https://bugs.chromium.org/p/project-zero/issues/detail?id=2254">Benutzt hier jemand Zoom für Videokonferenzen</a>?
-]]></description></item><item><link>http://blog.fefe.de/?ts=9c7080c7</link><guid>http://blog.fefe.de/?ts=9c7080c7</guid><pubDate>Wed, 25 May 2022 14:41:29 -0000</pubDate><title>Compiler und insbesondere Optimizer sind ja heutzutage schon ziemlich großartig...</title>
-<description><![CDATA[ Compiler und insbesondere Optimizer sind ja heutzutage schon ziemlich großartig und in den meisten Fällen besser als menschliche Codengeneratoren.<p>Aber manchmal stößt man auf Fälle, wo noch was geht. Ich hab hier einen gefunden:</p><pre>int dummy1()
-{
-  static int removeme = 0;
-  if (removeme)
-  {
-      return 0;
-  }
-  removeme = 1;
-  return 0;
-}</pre>Der Inhalt von removeme hat offensichtlich keine beobachtbaren Auswirkungen, kann also eigentlich komplett weg. Das machen aber weder gcc noch clang, beide mit -O3. Besonders krass: Selbst mit -flto nicht!<p>Zum Spielen habe ich das nochmal leicht umformuliert probiert:</p><pre>int dummy2()
-{
-  static int removeme = 0;
-  if (!removeme)
-    removeme = 1;
-  return 0;
-}
-
-int dummy3()
-{
-  static int removeme = 0;
-  removeme = 1;
-  return 0;
-}</pre>Bei dummy3 fällt gcc und clang auf, dass man removeme komplett wegmachen kann. Bei dummy2 aber auch nicht.<p>Ich bin gerade ein bisschen schockiert, dass selbst Link Time Optimization das nicht wegschmeißt. Hier der Testcode dafür:</p><pre>int main() {
-  return dummy1() + dummy2() + dummy3();
-}</pre>Und da kommt dann dieser Code raus (amd64):<pre>    16d0:       80 3d 95 22 00 00 00    cmpb   $0x0,0x2295(%rip)        # 396c &lt;dummy1.removeme&gt;
-    16d7:       74 0c                   je     16e5 &lt;main+0x15&gt;
-    16d9:       80 3d 90 22 00 00 00    cmpb   $0x0,0x2290(%rip)        # 3970 &lt;dummy2.removeme&gt;
-    16e0:       74 13                   je     16f5 &lt;main+0x25&gt;
-    16e2:       31 c0                   xor    %eax,%eax
-    16e4:       c3                      ret
-    16e5:       c6 05 80 22 00 00 01    movb   $0x1,0x2280(%rip)        # 396c &lt;dummy1.removeme&gt;
-    16ec:       80 3d 7d 22 00 00 00    cmpb   $0x0,0x227d(%rip)        # 3970 &lt;dummy2.removeme&gt;
-    16f3:       75 ed                   jne    16e2 &lt;main+0x12&gt;
-    16f5:       c6 05 74 22 00 00 01    movb   $0x1,0x2274(%rip)        # 3970 &lt;dummy2.removeme&gt;
-    16fc:       31 c0                   xor    %eax,%eax
-    16fe:       c3                      ret</pre>Vielleicht übersehe ich da gerade irgendeine Formulierung in irgendeinem Standard. Mal gucken, was die sagen. Habe Bugs eingetragen bei gcc und clang.
 ]]></description></item></channel></rss>
